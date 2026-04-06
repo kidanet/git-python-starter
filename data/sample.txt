@@ -1,0 +1,3 @@
+Git is a version control system.
+Git helps you track changes.
+Practice makes progress.
