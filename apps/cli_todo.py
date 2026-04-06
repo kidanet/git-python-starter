@@ -21,8 +21,6 @@ def load() -> list[Todo]:
 def save(todos: list[Todo]) -> None:
     write_json(DB_PATH, [asdict(t) for t in todos])
 
-def cmd_add(todos: list[Todo], text: str) -> None:
-
 def _norm_text(s: str) -> str:
     return " ".join(s.strip().lower().split())
 
@@ -61,9 +59,6 @@ def main() -> int:
     cmd = sys.argv[1]
 
     if cmd == "add":
-        if len(sys.argv) < 3:
-            raise SystemExit("Usage: ... add <text>")
-        cmd_add(todos, " ".join(sys.argv[2:]))
         unique = False
         args = sys.argv[2:]
 
