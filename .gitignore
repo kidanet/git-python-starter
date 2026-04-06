@@ -7,3 +7,6 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 data/todos.json
+
+# packaging artifacts
+*.egg-info/

@@ -22,6 +22,17 @@ def save(todos: list[Todo]) -> None:
     write_json(DB_PATH, [asdict(t) for t in todos])
 
 def cmd_add(todos: list[Todo], text: str) -> None:
+
+def _norm_text(s: str) -> str:
+    return " ".join(s.strip().lower().split())
+
+def cmd_add(todos: list[Todo], text: str, *, unique: bool = False) -> None:
+    if unique:
+        needle = _norm_text(text)
+        if any(_norm_text(t.text) == needle for t in todos):
+            print("Already exists (skipped).")
+            return
+
     todos.append(Todo(text=text))
     save(todos)
     print("Added.")
@@ -53,6 +64,18 @@ def main() -> int:
         if len(sys.argv) < 3:
             raise SystemExit("Usage: ... add <text>")
         cmd_add(todos, " ".join(sys.argv[2:]))
+        unique = False
+        args = sys.argv[2:]
+
+        if args and args[0] == "--unique":
+            unique = True
+            args = args[1:]
+
+        if not args:
+            raise SystemExit("Usage: ... add [--unique] <text>")
+
+        cmd_add(todos, " ".join(args), unique=unique)
+
     elif cmd == "list":
         cmd_list(todos)
     elif cmd == "done":
