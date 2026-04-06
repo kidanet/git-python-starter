@@ -52,7 +52,7 @@ def cmd_done(todos: list[Todo], idx: int) -> None:
 
 def main() -> int:
     if len(sys.argv) < 2:
-        print("Usage: python apps/cli_todo.py (add|list|done) ...")
+        print("Usage: todo (add [--unique] <text> | list | done <index>)")
         return 2
 
     todos = load()
@@ -67,7 +67,7 @@ def main() -> int:
             args = args[1:]
 
         if not args:
-            raise SystemExit("Usage: ... add [--unique] <text>")
+            raise SystemExit("Usage: todo add [--unique] <text>")
 
         cmd_add(todos, " ".join(args), unique=unique)
 
@@ -75,7 +75,7 @@ def main() -> int:
         cmd_list(todos)
     elif cmd == "done":
         if len(sys.argv) != 3:
-            raise SystemExit("Usage: ... done <index>")
+            raise SystemExit("Usage: todo done <index>")
         cmd_done(todos, int(sys.argv[2]))
     else:
         raise SystemExit(f"Unknown command: {cmd}")
